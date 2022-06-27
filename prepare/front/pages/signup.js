@@ -4,15 +4,15 @@ import Head from 'next/head';
 import { Form, Input, Checkbox, Button } from 'antd';
 import AppLayout from '../components/AppLayout';
 import styled from "styled-components";
-import useinput from "../hooks/useinput";
+import useInput from "../hooks/useinput";
 const ErrorMessage = styled.div`
     color: red;
 `;
 
 const Signup = () => {
-    const [id, onChangeId] = useinput('');
-    const [nickname, onChangeNickname] = useinput('');
-    const [password, onChangePassword] = useinput('');
+    const [id, onChangeId] = useInput('');
+    const [nickname, onChangeNickname] = useInput('');
+    const [password, onChangePassword] = useInput('');
     
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(false);
