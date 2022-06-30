@@ -1,16 +1,23 @@
 import React, { useCallback, useState } from "react";
 import Head from 'next/head';
-
+import { SIGN_UP_REQUEST } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Checkbox, Button } from 'antd';
+
 import AppLayout from '../components/AppLayout';
 import styled from "styled-components";
 import useInput from "../hooks/useinput";
+
 const ErrorMessage = styled.div`
     color: red;
 `;
 
 const Signup = () => {
-    const [id, onChangeId] = useInput('');
+    const dispatch = useDispatch();
+    const { signUpLoading } = useSelector((state) => state.user);
+
+
+    const [email, onChangeEmail] = useInput('');
     const [nickname, onChangeNickname] = useInput('');
     const [password, onChangePassword] = useInput('');
     
@@ -37,8 +44,12 @@ const Signup = () => {
         if (!term) {
             return setTermError(true);
         }
-        console.log(id, nickname, password);
-    }, [password, passwordCheck, term]);
+        console.log(email, nickname, password);
+        dispatch({
+            type: SIGN_UP_REQUEST,
+            data: { email, password, nickname },
+        });
+    }, [email, password, passwordCheck, term]);
 
     return(
         <AppLayout>
@@ -47,13 +58,14 @@ const Signup = () => {
             </Head>
             <Form onFinish={onSubmit}>
                 <div>
-                    <label htmlFor="user-id">아이디</label>
+                    <label htmlFor="user-email">이메일</label>
                     <br />
                     <Input 
-                        name="user-id" 
-                        value={id} 
+                        name="user-email" 
+                        type="email"
+                        value={email} 
                         required 
-                        onChange={onChangeId} 
+                        onChange={onChangeEmail} 
                     />
                 </div>
                 
@@ -108,6 +120,7 @@ const Signup = () => {
                     <Button 
                         type="primary"
                         htmlType="submit"
+                        loading={signUpLoading}
                     >
                         가입하기
                     </Button>

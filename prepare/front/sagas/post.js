@@ -4,16 +4,9 @@ import {
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE, addComment
 } from '../reducers/post';
 
-
 function addPostAPI(data) {
     return axios.post('/api/post', data);
 }
-
-function addCommentAPI(data) {
-    return axios.post(`/api/post/${data.postId}/comment`, data);
-}
-
-
 
 function* addPost(action) {
     try {
@@ -21,7 +14,7 @@ function* addPost(action) {
         // const result = yield call(addPostAPI, action.data);
         yield put ({
             type: ADD_POST_SUCCESS,
-            // data: result.data
+            data: action.data,
         });
     } catch (err) {
         yield put({
@@ -32,13 +25,17 @@ function* addPost(action) {
     
 };
 
+function addCommentAPI(data) {
+    return axios.post(`/api/post/${data.postId}/comment`, data);
+}
+
 function* addComment(action) {
     try {
         yield delay(1000);
         // const result = yield call(addCommentAPI, action.data);
         yield put ({
             type: ADD_COMMENT_SUCCESS,
-            // data: result.data
+            data: action.data,
         });
     } catch (err) {
         yield put({
@@ -46,16 +43,16 @@ function* addComment(action) {
             error: err.response.data,
         });
     }
-    
 };
 
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
-}
+};
 
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
-}
+};
+  
 
 
 export default function* postSaga() {
