@@ -1,7 +1,7 @@
 import { delay, put, takeLatest, fork, all } from 'redux-saga/effects';
 import {
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
-    ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE, addComment
+    ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE
 } from '../reducers/post';
 
 function addPostAPI(data) {
