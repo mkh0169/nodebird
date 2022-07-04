@@ -1,4 +1,4 @@
-import { delay, put, takeLatest, fork, all } from 'redux-saga/effects';
+import { delay, put, takeLatest, fork, all, call } from 'redux-saga/effects';
 import { 
     LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE, 
     LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, 
@@ -6,7 +6,7 @@ import {
     FOLLOW_REQUEST, FOLLOW_SUCCESS, FOLLOW_FAILURE,
     UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE
 } from '../reducers/user';
-
+import axios from 'axios';
 
 function followAPI(data) {
     return axios.post('/api/follow', data);
@@ -55,17 +55,15 @@ function* unfollow(action) {
 
 
 function logInAPI(data) {
-    return axios.post('/api/login', data);
+    return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
     try {
-        yield delay(1000);
-        // const result = yield call(logInAPI, action.data);
+        const result = yield call(logInAPI, action.data);
         yield put ({
             type: LOG_IN_SUCCESS,
-            data: action.data,
-            // data: result.data
+            data: result.data
         });
     } catch (err) {
         yield put({
@@ -78,18 +76,17 @@ function* logIn(action) {
 
 
 function logOutAPI() {
-    return axios.post('/api/logout');
+    return axios.post('/user/logout');
 }
 
 function* logOut() {
     try {
-        yield delay(1000);
-        // const result = yield call(logOutAPI);
+        yield call(logOutAPI);
         yield put ({
             type: LOG_OUT_SUCCESS,
-            // data: result.data
         });
     } catch (err) {
+        console.error(err);
         yield put({
             type: LOG_OUT_FAILURE,
             error: err.response.data,
@@ -98,14 +95,14 @@ function* logOut() {
     
 };
 
-function signUpAPI() {
-    return axios.post('/api/signUp', data);
+function signUpAPI(data) {
+    return axios.post('/user', data);
 }
 
-function* signUp() {
+function* signUp(action) {
     try {
-        yield delay(1000);
-        // const result = yield call(signUpAPI);
+        const result = yield call(signUpAPI, action.data);
+        console.log(result);
         yield put ({
             type: SIGN_UP_SUCCESS,
             // data: result.data
