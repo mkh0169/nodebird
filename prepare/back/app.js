@@ -21,8 +21,8 @@ db.sequelize.sync()
 passportConfig();
 
 app.use(cors({
-    origin: '*',
-    credentials: false,
+    origin: 'http://localhost:3060',
+    credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,6 +53,10 @@ app.get('/api/posts', (req, res) => {
 
 app.use('/post', postRouter);
 app.use('/user', userRouter);
+
+// app.use((err, req, res, next) => {
+    //에러처리 미들웨어(특별한 경우)
+// });
 
 app.listen(3065, () => {
     console.log('서버 실행 중');

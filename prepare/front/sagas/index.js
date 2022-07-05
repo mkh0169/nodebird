@@ -6,6 +6,7 @@ import userSaga from './user';
 
 
 axios.defaults.baseURL = 'http://localhost:3065';
+axios.defaults.withCredentials = true;
 //call 동기 함수 호출
 //fork 비동기
 

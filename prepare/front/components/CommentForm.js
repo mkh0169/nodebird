@@ -47,7 +47,7 @@ const CommentForm = ({ post }) => {
                     }}
                     type="primary"
                     htmlType="submit"
-                    loading={addCommentLoading }
+                    loading={ addCommentLoading }
                     >삐약
                 </Button>
             </Form.Item>
